@@ -1,26 +1,189 @@
 @import "tailwindcss";
 
+/* ——————————————————————————————————————————
+   Design tokens
+   Palette: Linear.app dark + admin project
+   —————————————————————————————————————————— */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:            #08090a;
+  --bg-elevated:   #111214;
+  --bg-surface:    #191d20;
+  --bg-hover:      #1f2328;
+
+  --text-1:        #d0d6e0;
+  --text-2:        #8a8f98;
+  --text-3:        #62666d;
+  --text-4:        #3a3d42;
+
+  --line:          #2e2e32;
+  --line-subtle:   rgba(255, 255, 255, 0.06);
+
+  --accent:        #5e6ad2;
+  --accent-hover:  #6e7ae2;
+  --accent-dim:    rgba(94, 106, 210, 0.10);
+  --accent-glow:   rgba(94, 106, 210, 0.04);
+
+  --green:         #01c646;
+  --green-dim:     rgba(1, 198, 70, 0.10);
+
+  --red:           #d6303d;
+  --red-dim:       rgba(214, 48, 61, 0.10);
+
+  --ease:          cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg:           var(--bg);
+  --color-bg-elevated:  var(--bg-elevated);
+  --color-bg-surface:   var(--bg-surface);
+  --color-bg-hover:     var(--bg-hover);
+  --color-text-1:       var(--text-1);
+  --color-text-2:       var(--text-2);
+  --color-text-3:       var(--text-3);
+  --color-text-4:       var(--text-4);
+  --color-line:         var(--line);
+  --color-line-subtle:  var(--line-subtle);
+  --color-accent:       var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-dim:   var(--accent-dim);
+  --color-green:        var(--green);
+  --color-green-dim:    var(--green-dim);
+  --color-red:          var(--red);
+  --color-red-dim:      var(--red-dim);
+  --font-display:       var(--font-space-grotesk);
+  --font-body:          var(--font-inter);
+  --font-mono:          var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ——————————————————————————————————————————
+   Base
+   —————————————————————————————————————————— */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* thin scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-4); border-radius: 2px; }
+
+/* ——————————————————————————————————————————
+   Atmospheric layers
+   —————————————————————————————————————————— */
+
+/* Film grain — fixed overlay */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Subtle grid */
+.grid-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255 255 255 / 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255 255 255 / 0.02) 1px, transparent 1px);
+  background-size: 140px 140px;
+  mask-image: radial-gradient(ellipse 70% 50% at 50% 0%, black, transparent);
+}
+
+/* ——————————————————————————————————————————
+   Scroll-triggered reveal
+   —————————————————————————————————————————— */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.75s var(--ease),
+    transform 0.75s var(--ease-out);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d1 { transition-delay: 0.08s; }
+.reveal-d2 { transition-delay: 0.16s; }
+.reveal-d3 { transition-delay: 0.24s; }
+.reveal-d4 { transition-delay: 0.34s; }
+.reveal-d5 { transition-delay: 0.44s; }
+.reveal-d6 { transition-delay: 0.54s; }
+.reveal-d7 { transition-delay: 0.64s; }
+.reveal-d8 { transition-delay: 0.74s; }
+
+/* ——————————————————————————————————————————
+   Entrance animations (hero)
+   —————————————————————————————————————————— */
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.enter        { animation: enter 0.9s var(--ease-out) both; }
+.enter-d1     { animation-delay: 0.12s; }
+.enter-d2     { animation-delay: 0.24s; }
+.enter-d3     { animation-delay: 0.38s; }
+.enter-d4     { animation-delay: 0.52s; }
+
+/* ——————————————————————————————————————————
+   Utilities
+   —————————————————————————————————————————— */
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%      { opacity: 0.65; transform: scale(1.04); }
+}
+.breathe { animation: breathe 4s ease-in-out infinite; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--text-4);
+  border-top-color: var(--text-1);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* Focus ring */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
