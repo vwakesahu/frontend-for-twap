@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tachyon — Private TWAP",
+  title: "Tachyon | Private TWAP",
   description: "Private, untraceable TWAP execution inside TEEs. Trade like a whale, look like retail.",
 };
 

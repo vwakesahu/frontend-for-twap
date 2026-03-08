@@ -174,11 +174,11 @@ export default function Landing() {
             className="enter enter-d3 text-text-2 text-[15px] sm:text-[18px] leading-[1.6] max-w-[520px] mx-auto mb-10 sm:mb-14"
             style={{ letterSpacing: "-0.02em" }}
           >
-            Private TWAP intents executed inside a TEE.
+            Access RWAs and stocks across any chain, privately.
             <br className="hidden sm:inline" />
-            No on-chain transactions. No traceable strategies.
+            Systematic TWAPs with private settlements, 
             <br className="hidden sm:inline" />
-            Your orders are encrypted, batched, and invisible.
+            no visible order flow, no traceable strategies.
           </p>
 
           {/* ctas */}
