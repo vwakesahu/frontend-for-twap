@@ -269,7 +269,7 @@ export default function AppPage() {
         </div>
         <div className="flex items-center gap-4">
           {/* server indicator */}
-          <button
+          {/* <button
             onClick={checkHealth}
             className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-text-4 hover:text-text-2 transition-colors"
           >
@@ -279,7 +279,15 @@ export default function AppPage() {
               }`}
             />
             {serverOnline === null ? "Check server" : serverOnline ? "Online" : "Offline"}
-          </button>
+          </button> */}
+          <a
+            href="https://www.tachyon.pe/mint"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-text-4 hover:text-text-2 transition-colors"
+          >
+            Mint
+          </a>
           <ConnectButton
             chainStatus="icon"
             accountStatus="address"
