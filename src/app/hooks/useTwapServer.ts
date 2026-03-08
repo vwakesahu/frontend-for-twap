@@ -100,23 +100,28 @@ export function useTwapServer() {
     [],
   );
 
-  /** POST /twap/status/:orderId */
+  /** POST /twap/status — body: { orderId } */
   const getOrderStatus = useCallback(
     async (orderId: string): Promise<TwapOrderStatus> => {
-      const res = await fetch(`${TWAP_SERVER_URL}/twap/status/${orderId}`, { method: "POST" });
+      const res = await fetch(`${TWAP_SERVER_URL}/twap/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
       const data = await res.json();
       return data as TwapOrderStatus;
     },
     [],
   );
 
-  /** POST /twap/orders/:userAddress */
+  /** POST /twap/orders — body: { userAddress } */
   const getUserOrders = useCallback(
     async (userAddress: string): Promise<TwapOrderListItem[]> => {
-      const res = await fetch(
-        `${TWAP_SERVER_URL}/twap/orders/${userAddress}`,
-        { method: "POST" },
-      );
+      const res = await fetch(`${TWAP_SERVER_URL}/twap/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userAddress }),
+      });
       const data = await res.json();
       if (!data.success) return [];
       return (data.orders ?? []) as TwapOrderListItem[];
@@ -124,10 +129,12 @@ export function useTwapServer() {
     [],
   );
 
-  /** POST /twap/cancel/:orderId */
+  /** POST /twap/cancel — body: { orderId } */
   const cancelOrder = useCallback(async (orderId: string) => {
-    const res = await fetch(`${TWAP_SERVER_URL}/twap/cancel/${orderId}`, {
+    const res = await fetch(`${TWAP_SERVER_URL}/twap/cancel`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId }),
     });
     return res.json();
   }, []);
