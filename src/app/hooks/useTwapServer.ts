@@ -50,23 +50,23 @@ export function useTwapServer() {
 
   const reset = useCallback(() => setError(null), []);
 
-  /** GET /twap/health */
+  /** POST /twap/health */
   const health = useCallback(async () => {
-    const res = await fetch(`${TWAP_SERVER_URL}/twap/health`);
+    const res = await fetch(`${TWAP_SERVER_URL}/twap/health`, { method: "POST" });
     return res.json() as Promise<{ status: string; service: string }>;
   }, []);
 
-  /** GET /twap/ecies-pubkey */
+  /** POST /twap/ecies-pubkey */
   const getEciesPubkey = useCallback(async (): Promise<string> => {
-    const res = await fetch(`${TWAP_SERVER_URL}/twap/ecies-pubkey`);
+    const res = await fetch(`${TWAP_SERVER_URL}/twap/ecies-pubkey`, { method: "POST" });
     const data = await res.json();
     if (!data.success) throw new Error("Failed to get ECIES pubkey");
     return data.publicKey as string;
   }, []);
 
-  /** GET /twap/address — TEE wallet address */
+  /** POST /twap/address — TEE wallet address */
   const getTeeAddress = useCallback(async (): Promise<string> => {
-    const res = await fetch(`${TWAP_SERVER_URL}/twap/address`);
+    const res = await fetch(`${TWAP_SERVER_URL}/twap/address`, { method: "POST" });
     const data = await res.json();
     if (!data.success) throw new Error("Failed to get TEE address");
     return data.address as string;
