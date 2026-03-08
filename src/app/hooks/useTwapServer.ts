@@ -100,21 +100,22 @@ export function useTwapServer() {
     [],
   );
 
-  /** GET /twap/status/:orderId */
+  /** POST /twap/status/:orderId */
   const getOrderStatus = useCallback(
     async (orderId: string): Promise<TwapOrderStatus> => {
-      const res = await fetch(`${TWAP_SERVER_URL}/twap/status/${orderId}`);
+      const res = await fetch(`${TWAP_SERVER_URL}/twap/status/${orderId}`, { method: "POST" });
       const data = await res.json();
       return data as TwapOrderStatus;
     },
     [],
   );
 
-  /** GET /twap/orders/:userAddress */
+  /** POST /twap/orders/:userAddress */
   const getUserOrders = useCallback(
     async (userAddress: string): Promise<TwapOrderListItem[]> => {
       const res = await fetch(
         `${TWAP_SERVER_URL}/twap/orders/${userAddress}`,
+        { method: "POST" },
       );
       const data = await res.json();
       if (!data.success) return [];
